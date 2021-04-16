@@ -39,7 +39,7 @@ export default class RandomShape {
         )
       );
     }
-    this.chunkSize = MathUtils.randInt(2, 10);
+    this.chunkSize = MathUtils.randInt(3, 10);
     this.chunkPoints = DSU.chunk([...this.points], this.chunkSize);
     for (let i = 0; i < this.chunkPoints.length; i++) {
       geometries.push(
