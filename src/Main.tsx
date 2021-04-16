@@ -1,7 +1,8 @@
 import './App.css';
 import React, { MutableRefObject, useEffect, useRef } from 'react';
 import SceneComponents from './setup/SceneComponents';
-import { Lights } from './setup/Lights';
+import RandomShape from './meshes/RandomShape';
+import Lights from './setup/Lights';
 
 let SCENE_COMPONENTS: SceneComponents;
 
@@ -10,15 +11,9 @@ function Main() {
 
   useEffect(() => {
     let frameId: number;
-    let width = container.current.clientWidth;
-    let height = container.current.clientHeight;
-    SCENE_COMPONENTS = new SceneComponents(
-      container.current,
-      width,
-      height,
-      '#000'
-    );
+    SCENE_COMPONENTS = new SceneComponents(container.current, '#000');
     new Lights(SCENE_COMPONENTS.scene, SCENE_COMPONENTS.camera.position);
+    new RandomShape(SCENE_COMPONENTS.scene);
 
     const start = () => {
       if (!frameId) frameId = requestAnimationFrame(animate);
@@ -26,13 +21,17 @@ function Main() {
 
     const animate = () => {
       requestAnimationFrame(animate);
-      SCENE_COMPONENTS.controls.update();
-      SCENE_COMPONENTS.renderer.render(
-        SCENE_COMPONENTS.scene,
-        SCENE_COMPONENTS.camera
+      SCENE_COMPONENTS.render();
+    };
+
+    const handleResize = () => {
+      SCENE_COMPONENTS.handleResize(
+        container.current.clientWidth,
+        container.current.clientHeight
       );
     };
 
+    window.addEventListener('resize', handleResize);
     start();
   });
 

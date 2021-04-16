@@ -1,6 +1,6 @@
 import { AmbientLight, PointLight, Scene, Vector3 } from 'three';
 
-export class Lights {
+export default class Lights {
   private readonly ambientLight: AmbientLight;
   private readonly point: PointLight;
   private readonly scene: Scene;
