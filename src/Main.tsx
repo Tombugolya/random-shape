@@ -1,6 +1,7 @@
 import './App.css';
 import React, { MutableRefObject, useEffect, useRef } from 'react';
 import SceneComponents from './setup/SceneComponents';
+import { Lights } from './setup/Lights';
 
 let SCENE_COMPONENTS: SceneComponents;
 
@@ -15,8 +16,9 @@ function Main() {
       container.current,
       width,
       height,
-      '0x000000'
+      '#000'
     );
+    new Lights(SCENE_COMPONENTS.scene, SCENE_COMPONENTS.camera.position);
 
     const start = () => {
       if (!frameId) frameId = requestAnimationFrame(animate);
