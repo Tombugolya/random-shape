@@ -18,8 +18,6 @@ function Main() {
     SCENE_COMPONENTS = new SceneComponents(container.current, '#000');
     new Lights(SCENE_COMPONENTS.scene, SCENE_COMPONENTS.camera.position);
     const shape = new RandomShape(SCENE_COMPONENTS.scene);
-    // @ts-ignore
-    window['shape'] = shape;
 
     const start = () => {
       if (!frameId) frameId = requestAnimationFrame(animate);
