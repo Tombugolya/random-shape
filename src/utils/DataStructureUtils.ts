@@ -1,4 +1,4 @@
-class DataStructureUtils {
+export default class DataStructureUtils {
   static chunk(inputArray: Array<any>, size: number): Array<any> {
     return inputArray.reduce((array, item, index) => {
       return index % size === 0
@@ -7,5 +7,3 @@ class DataStructureUtils {
     }, []);
   }
 }
-
-export default DataStructureUtils;
