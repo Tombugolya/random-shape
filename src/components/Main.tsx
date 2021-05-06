@@ -1,8 +1,12 @@
-import '../css/Main.css';
+/** @jsxImportSource @emotion/react */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { jsx, css, Global } from '@emotion/react';
 import React, { MutableRefObject, useEffect, useRef } from 'react';
 import SceneComponents from '../setup/SceneComponents';
 import RandomShape from '../meshes/RandomShape';
 import Lights from '../setup/Lights';
+import globalStyles from '../styles/globalStyles';
+import InfoText from './InfoText';
 import { Clock } from 'three';
 import { useQuery } from '../hooks/hooks';
 
@@ -10,7 +14,7 @@ let SCENE_COMPONENTS: SceneComponents;
 
 function Main() {
   const container = useRef() as MutableRefObject<HTMLDivElement>;
-  const beating = useQuery().get('beating') === 'true';
+  let beating = useQuery().get('beating') === 'true';
 
   useEffect(() => {
     let frameId: number;
@@ -54,7 +58,13 @@ function Main() {
     };
   }, [beating]);
 
-  return <div ref={container} id="container" />;
+  return (
+    <React.Fragment>
+      <InfoText />
+      <div ref={container} id="container" />
+      <Global styles={globalStyles} />
+    </React.Fragment>
+  );
 }
 
 export default Main;

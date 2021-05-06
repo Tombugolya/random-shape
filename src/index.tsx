@@ -1,4 +1,3 @@
-import './css/index.css';
 import React from 'react';
 import Main from './components/Main';
 import ReactDOM from 'react-dom';

@@ -1,9 +1,0 @@
-body {
-  width: 100%;
-  background-color: #000;
-  overscroll-behavior: none;
-}
-
-canvas {
-  display: block;
-}

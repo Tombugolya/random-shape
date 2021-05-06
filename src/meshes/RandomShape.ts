@@ -14,15 +14,15 @@ import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry';
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 
 export default class RandomShape {
-  private static readonly divisions = 50;
-  private readonly numOfPoints: number;
-  private readonly chunkSize: number;
-  private readonly range: number;
-  private readonly scene: Scene;
-  private color: Color;
-  private object: Mesh<BufferGeometry, MeshLambertMaterial>;
-  private points: Vector3[] = [];
-  private chunkPoints: Vector3[][] = [];
+  readonly #divisions = 50;
+  readonly #numOfPoints: number;
+  readonly #chunkSize: number;
+  readonly #range: number;
+  readonly #scene: Scene;
+  #color: Color;
+  #object: Mesh<BufferGeometry, MeshLambertMaterial>;
+  #points: Vector3[] = [];
+  #chunkPoints: Vector3[][] = [];
 
   constructor(
     scene: Scene,
@@ -30,39 +30,39 @@ export default class RandomShape {
     range?: number,
     chunkSize?: number
   ) {
-    this.scene = scene;
-    this.color = new Color(MU.generateRandomHexadecimal());
-    this.numOfPoints = numOfPoints || 20;
-    this.range = numOfPoints || 50;
-    this.chunkSize = chunkSize || MathUtils.randInt(4, 7);
-    this.object = this.generateShape();
+    this.#scene = scene;
+    this.#color = new Color(MU.generateRandomHexadecimal());
+    this.#numOfPoints = numOfPoints || 20;
+    this.#range = numOfPoints || 50;
+    this.#chunkSize = chunkSize || MathUtils.randInt(4, 7);
+    this.#object = this.generateShape();
     window.addEventListener('keydown', this.onKeyDown);
-    this.scene.add(this.object);
+    this.#scene.add(this.#object);
   }
 
   public generateShape(
     tension: number = MathUtils.randFloat(0, 1)
   ): Mesh<BufferGeometry, MeshLambertMaterial> {
-    this.points = this.generatePoints();
-    this.chunkPoints = DSU.chunk([...this.points], this.chunkSize);
+    this.#points = this.generatePoints();
+    this.#chunkPoints = DSU.chunk([...this.#points], this.#chunkSize);
     const material = new MeshLambertMaterial();
-    material.color = this.color;
+    material.color = this.#color;
     return new Mesh(this.generateGeometry(tension), material);
   }
 
   public updateTension(tension: number): void {
-    this.object.geometry.dispose();
-    this.object.geometry = this.generateGeometry(tension);
+    this.#object.geometry.dispose();
+    this.#object.geometry = this.generateGeometry(tension);
   }
 
   private generatePoints(): Vector3[] {
     const points: Vector3[] = [];
-    for (let i = 0; i < this.numOfPoints; i++) {
+    for (let i = 0; i < this.#numOfPoints; i++) {
       points.push(
         new Vector3(
-          MathUtils.randFloat(-this.range, this.range),
-          MathUtils.randFloat(-this.range, this.range),
-          MathUtils.randFloat(-this.range, this.range)
+          MathUtils.randFloat(-this.#range, this.#range),
+          MathUtils.randFloat(-this.#range, this.#range),
+          MathUtils.randFloat(-this.#range, this.#range)
         )
       );
     }
@@ -71,15 +71,15 @@ export default class RandomShape {
 
   private generateGeometry(tension: number): BufferGeometry {
     const geometries: ConvexGeometry[] = [];
-    for (let i = 0; i < this.chunkPoints.length; i++) {
+    for (let i = 0; i < this.#chunkPoints.length; i++) {
       geometries.push(
         new ConvexGeometry(
           new CatmullRomCurve3(
-            this.chunkPoints[i],
+            this.#chunkPoints[i],
             true,
             'catmullrom',
             tension
-          ).getPoints(RandomShape.divisions)
+          ).getPoints(this.#divisions)
         )
       );
     }
@@ -87,16 +87,16 @@ export default class RandomShape {
   }
 
   private generateNewShape(): void {
-    this.object.geometry.dispose();
-    this.object.material.dispose();
-    this.scene.remove(this.object);
-    this.object = this.generateShape();
-    this.scene.add(this.object);
+    this.#object.geometry.dispose();
+    this.#object.material.dispose();
+    this.#scene.remove(this.#object);
+    this.#object = this.generateShape();
+    this.#scene.add(this.#object);
   }
 
   private generateNewColor(): void {
-    this.color = new Color(MU.generateRandomHexadecimal());
-    this.object.material.color = this.color;
+    this.#color = new Color(MU.generateRandomHexadecimal());
+    this.#object.material.color = this.#color;
   }
 
   private onKeyDown = (event: KeyboardEvent): void => {
