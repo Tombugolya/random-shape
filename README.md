@@ -1,6 +1,8 @@
 # Random Shape
 A website that produces a random 3D shape!
+
 Click 'R' to randomize a shape, click 'C' to change its color.
+
 Insert '?beating=true' in the URL for a cool beating effect.
 
 ## Scripts
